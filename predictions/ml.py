@@ -1,11 +1,13 @@
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
-# from .models import HistoricalData, FloodPrediction
+from .models import HistoricalData, FloodPrediction
 import joblib
 import geopandas as gpd
 import pandas as pd
+import os
 
-MODEL_PATH = './model/trained_model.joblib'
+MODEL_DIRECTORY = './predictions/model/'
+MODEL_PATH = os.path.join(MODEL_DIRECTORY, 'trained_model.joblib')
 
 def train_ml_model():
     # Load data
@@ -36,15 +38,21 @@ def train_ml_model():
 
     model.fit(X_train, y_train)
 
-    # Save the trained model to a file
+    # Create the model directory if it doesn't exist
+    os.makedirs(MODEL_DIRECTORY, exist_ok=True)
+
+    # Save the trained model to a file in the specified directory
     joblib.dump(model, MODEL_PATH)
 
 def load_trained_ml_model():
-    # Load the trained model
-    return joblib.load(MODEL_PATH)
+    # Check if the model file exists before loading
+    if os.path.exists(MODEL_PATH):
+        return joblib.load(MODEL_PATH)
+    else:
+        raise FileNotFoundError(f"Model file not found at {MODEL_PATH}")
 
 def make_real_time_prediction(model, new_data):
-    # Converte the dictionary to a DataFrame
+    # Convert the dictionary to a DataFrame
     new_data_df = pd.DataFrame([new_data])
 
     # Assuming new_data_df has the same structure as training features
@@ -72,14 +80,14 @@ def make_prediction():
     print(f"Prediction: {percentage_flooded:.2f}% of the total area")
 
 def get_latest_historical_data():
-    # latest_data = HistoricalData.objects.latest('timestamp')
-    latest_data = {
-        'total_population': 1000000,
-        'total_croplands_area': 100000,
-        'directly_aff_popn': 10000
-    }
-    return latest_data
+    # Get the latest historical data
+    latest_data = HistoricalData.objects.latest('timestamp')
 
+    return {
+        'total_population': latest_data.total_population,
+        'total_croplands_area': latest_data.total_croplands_area,
+        'directly_aff_popn': latest_data.directly_aff_popn
+    }
 
 if __name__ == '__main__':
     train_ml_model()
