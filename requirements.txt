@@ -2,3 +2,10 @@ asgiref==3.7.2
 Django==5.0.1
 sqlparse==0.4.4
 tzdata==2023.4
+djangorestframework
+# psycopg2==2.9.2
+# twilio==6.64.1
+django-crispy-forms==1.12.0
+python-decouple==3.5
+# RPi.GPIO==0.7.2   # If you're working with Raspberry Pi GPIO
+# gpiozero==1.7.1   # If you prefer GPIO control abstraction
