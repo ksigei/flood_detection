@@ -1,16 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flood Alerts</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Flood Alerts{% endblock %}
+
+{% block content %}
+<div class="container">
     <h1>Flood Alerts</h1>
-    <ul>
+    <ul class="list-group">
         {% for alert in latest_alerts %}
-            <li>{{ alert.timestamp }} - {{ alert.alert_message }}</li>
+            <li class="list-group-item">{{ alert.timestamp }} - {{ alert.alert_message }}</li>
         {% endfor %}
     </ul>
-</body>
-</html>
+</div>
+{% endblock %}
