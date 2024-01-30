@@ -5,12 +5,17 @@
 {% block content %}
 <div class="container">
     <div class="card mt-5">
-        <div class="card-header">
-            <h1 class="card-title">Flood Prediction</h1>
+        <div class="card-header bg-primary text-white">
+            <h1 class="card-title mb-0">Flood Prediction</h1>
         </div>
         <div class="card-body">
-            <p class="card-text">{{ prediction_data.message }}</p>
-            <p class="card-text">Prediction: {{ prediction_data.prediction }}% of to total area is likely to be flooded.</p>
+            <p class="lead">{{ prediction_data.message }}</p>
+            <hr>
+            <div class="d-flex justify-content-between align-items-center">
+                <h2 class="mb-0">Prediction:</h2>
+                <span class="display-4 font-weight-bold">{{ prediction_data.prediction }}%</span>
+            </div>
+            <p class="text-muted mb-0">of the total area is likely to be flooded</p>
         </div>
     </div>
 </div>

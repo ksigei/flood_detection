@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Flood Alerts{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
 <div class="container">
+    <!-- Jumbotron -->
     <div class="jumbotron">
         <h1 class="display-4">Welcome to Ndanu Flood Detection System</h1>
         <p class="lead">Stay informed about potential flood events with our advanced prediction system.</p>
@@ -15,7 +16,8 @@
         <a class="btn btn-primary btn-lg" href="{% url 'view_flood_alerts' %}" role="button">View Alerts</a>
     </div>
 
-    <div class="row">
+    <!-- Cards Section -->
+    <div class="row mt-5">
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
@@ -45,10 +47,34 @@
         </div>
     </div>
 
+    <!-- How It Works Section -->
     <div class="row mt-5">
         <div class="col-md-12">
             <h2>How It Works</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, molestie ipsum et, consequat nibh. Duis nec nisi vitae elit condimentum mollis in nec ante.</p>
+            <p>
+                Our system uses a combination of sensors and machine learning to predict floods.
+                The sensors are placed in strategic locations and send data to our servers.
+                The data is then analyzed and predictions are made. The predictions are then sent to the users.
+            </p>
+        </div>
+    </div>
+
+    <!-- Sensor Reading Graph Section -->
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h2>Latest Insights</h2>
+            <p>
+                The graph below shows the latest sensor readings.
+                The graph is updated every 5 minutes.
+            </p>
+        </div>
+        <div class="col-md-6">
+            <h2>Sensor Reading Graph</h2>
+            <img src="{{ graph_img }}" alt="Sensor Reading Graph" class="img-fluid">
+        </div>
+        <div class="col-md-6">
+            <h1>Historical Data Plot</h1>
+            <img src="{{ plot_path }}" alt="Historical Data Plot" class="img-fluid">
         </div>
     </div>
 </div>
