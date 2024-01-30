@@ -1,7 +1,5 @@
-from django.http import JsonResponse
+from django.shortcuts import render
 from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from .models import FloodPrediction, HistoricalData
 from .ml import load_trained_ml_model, make_real_time_prediction, get_latest_historical_data
 
 @api_view(['GET'])
@@ -19,7 +17,7 @@ def get_flood_prediction(request):
     prediction_scalar = prediction[0]
 
     # Calculate the percentage of flooded area
-    total_area = 100000
+    total_area = 1000095
     percentage_flooded = (prediction_scalar / total_area) * 100
 
     # Prepare response data
@@ -28,4 +26,5 @@ def get_flood_prediction(request):
         'message': 'Flood prediction retrieved successfully.'
     }
 
-    return JsonResponse(response_data)
+    # Render the template with prediction data
+    return render(request, 'flood_prediction.html', {'prediction_data': response_data})

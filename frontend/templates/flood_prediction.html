@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Flood Prediction{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="card mt-5">
+        <div class="card-header">
+            <h1 class="card-title">Flood Prediction</h1>
+        </div>
+        <div class="card-body">
+            <p class="card-text">{{ prediction_data.message }}</p>
+            <p class="card-text">Prediction: {{ prediction_data.prediction }}% of to total area is likely to be flooded.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

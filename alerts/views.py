@@ -5,53 +5,54 @@ from .models import FloodAlert
 from predictions.models import FloodPrediction, HistoricalData
 from django.core.mail import send_mail
 
-def send_flood_alert(alert_message, recipients):
+def send_flood_alert(alert_message):
+    recipients = User.objects.all()
+
+    # save the flood alert in the database
+    flood_alert = FloodAlert.objects.create(alert_message=alert_message)
+    flood_alert.recipients.set(recipients)
+
     # Send email alerts to recipients
     subject = 'Flood Alert'
     message = alert_message
-    from_email = 'your@example.com'  # Update with your email
-    recipient_list = recipients.values_list('email', flat=True)  # Assuming recipients have email field
+    from_email = 'admin@skillfam.com'
+    recipient_list = recipients.values_list('email', flat=True)  
     send_mail(subject, message, from_email, recipient_list)
 
 def check_flood_alert():
-    # Load the latest flood prediction
+    # load the latest flood prediction
     latest_prediction = FloodPrediction.objects.latest('timestamp')
     
-    # Load the latest historical data
+    # load the latest historical data
     latest_data = HistoricalData.objects.latest('timestamp')
 
-    # Calculate the percentage of flooded area
+    # calculate the percentage of flooded area
     total_area = 100000 
     percentage_flooded = (latest_prediction.total_flooded_area / total_area) * 100
 
-    # Define threshold for triggering alerts (e.g., 50% of the total area)
+    # set threshold for triggering alerts (e.g., 50% of the total area)
     alert_threshold = 50
 
-    # Check if the percentage of flooded area exceeds the threshold
+    # check if the percentage of flooded area exceeds the threshold
     if percentage_flooded >= alert_threshold:
-        # Create a flood alert message
+        # create a flood alert message
         alert_message = f"High probability of flooding detected ({percentage_flooded:.2f}% of the total area)."
 
-        # Get recipients who should receive the alert
-        recipients = User.objects.all()  # Example: All users in the system
+        # get recipients who should receive the alert
+        recipients = User.objects.all()  
         
-        # Create a FloodAlert object and save it to the database
-        flood_alert = FloodAlert.objects.create(alert_message=alert_message)
-        flood_alert.recipients.set(recipients)
-
-        # Send flood alert to recipients via email
+        # send flood alert to recipients and save it in the database
         send_flood_alert(alert_message, recipients)
 
 def flood_alert_scheduler():
-    # Check for flood alerts every 5 minutes
+    # check for flood alerts every 5 minutes
     check_flood_alert()
     print(f"Flood alert checked at {timezone.now()}")
 
 def view_flood_alerts(request):
-    # Fetch the latest flood alerts from the database
+    # latest flood alerts
     latest_alerts = FloodAlert.objects.order_by('-timestamp')[:10] 
 
-    # Pass the latest alerts to the template for rendering
     context = {'latest_alerts': latest_alerts}
     return render(request, 'flood_alerts.html', context)
 

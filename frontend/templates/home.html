@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Flood Alerts{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to Ndanu Flood Detection System</h1>
+        <p class="lead">Stay informed about potential flood events with our advanced prediction system.</p>
+        <hr class="my-4">
+        <p>Get real-time flood alerts and historical data analysis.</p>
+        <a class="btn btn-primary btn-lg" href="{% url 'simulate_sensor' %}" role="button">Simulate sensor</a>
+        <a class="btn btn-primary btn-lg" href="{% url 'send_flood_alert' %}" role="button">Send Flood Alert</a>
+        <a class="btn btn-primary btn-lg" href="{% url 'get_flood_prediction' %}" role="button">Predict Floods</a>
+        <a class="btn btn-primary btn-lg" href="{% url 'view_flood_alerts' %}" role="button">View Alerts</a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">About Us</h5>
+                    <p class="card-text">Learn more about our team and mission.</p>
+                    <a href="#" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Contact</h5>
+                    <p class="card-text">Get in touch with us for support or inquiries.</p>
+                    <a href="#" class="btn btn-primary">Contact Us</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Services</h5>
+                    <p class="card-text">Explore the services we offer.</p>
+                    <a href="#" class="btn btn-primary">View Services</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h2>How It Works</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, molestie ipsum et, consequat nibh. Duis nec nisi vitae elit condimentum mollis in nec ante.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

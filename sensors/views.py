@@ -6,13 +6,13 @@ import time
 from datetime import datetime
 from predictions.ml import make_real_time_prediction
 from .models import Sensor, SensorReading
-
+from alerts.views import send_flood_alert
+from predictions.ml import load_trained_ml_model
 class SensorReadingView(View):
     def post(self, request, *args, **kwargs):
-        # Assuming you send sensor data in the request
-        sensor_data = request.POST  # Adjust as per your data format
+        sensor_data = request.POST  
 
-        # Make a real-time prediction using the trained ML model
+        #real-time prediction using the trained ML model
         ml_model = load_trained_ml_model() 
         make_real_time_prediction(ml_model, sensor_data)
 
@@ -20,7 +20,7 @@ class SensorReadingView(View):
 
 def simulate_sensor(request):
     sensors = Sensor.objects.all()
-    sensor = sensors.get(ip_address='127.0.0.1')  # Adjust the IP address as needed
+    sensor = sensors.get(ip_address='127.0.0.1')  # IP address
     sensor_id = request.GET.get('sensor_id', sensor.id)
     parameters = request.GET.getlist('parameters', ['water_level', 'temperature', 'humidity'])
     num_readings = int(request.GET.get('num_readings', 2))
@@ -34,10 +34,14 @@ def simulate_sensor(request):
     def simulate_sensor():
         for _ in range(num_readings):
             reading = generate_sensor_reading()
-            reading.save()  # Save the sensor reading to the database
+            reading.save()  # save the reading
+            
+            # Check if the water level exceeds a certain threshold
+            if reading.water_level > 20:  # adjustable water level threshold
+                alert_message = f"High water level detected: {reading.water_level}"
+                send_flood_alert(alert_message)  # call send flood alert
+                
             time.sleep(interval_seconds)
 
     simulate_sensor()
     return JsonResponse({"status": "success"})
-
-            

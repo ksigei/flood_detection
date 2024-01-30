@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import permissions
@@ -20,10 +22,14 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('endpoints.urls')),
-    # path('api-auth/', include('rest_framework.urls')),
     path('predictions/', include('predictions.urls')),
     path('', include('sensors.urls')),
     path('', include('alerts.urls')),
+    path('', include('home.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+admin.site.site_header = "Ndanu Admin"
+admin.site.site_title = "Ndanu Admin Portal"
+admin.site.index_title = "Welcome to Ndanu Admin Portal"
