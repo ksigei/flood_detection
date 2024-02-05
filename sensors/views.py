@@ -1,6 +1,5 @@
 from django.views.generic import View
 from django.http import JsonResponse
-from django.http import JsonResponse
 import random
 import time
 from datetime import datetime
@@ -8,11 +7,12 @@ from predictions.ml import make_real_time_prediction
 from .models import Sensor, SensorReading
 from alerts.views import send_flood_alert
 from predictions.ml import load_trained_ml_model
+
 class SensorReadingView(View):
     def post(self, request, *args, **kwargs):
         sensor_data = request.POST  
 
-        #real-time prediction using the trained ML model
+        # Real-time prediction using the trained ML model
         ml_model = load_trained_ml_model() 
         make_real_time_prediction(ml_model, sensor_data)
 
@@ -37,9 +37,9 @@ def simulate_sensor(request):
             reading.save()  # save the reading
             
             # Check if the water level exceeds a certain threshold
-            if reading.water_level > 20:  # adjustable water level threshold
+            if reading.water_level > 20:  # Adjustable water level threshold
                 alert_message = f"High water level detected: {reading.water_level}"
-                send_flood_alert(alert_message)  # call send flood alert
+                send_flood_alert(alert_message)  # Call send flood alert
                 
             time.sleep(interval_seconds)
 
