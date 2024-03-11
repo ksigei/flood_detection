@@ -3,79 +3,218 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<div class="container">
-    <!-- Jumbotron -->
-    <div class="jumbotron">
-        <h1 class="display-4">Welcome to Ndanu Flood Detection System</h1>
-        <p class="lead">Stay informed about potential flood events with our advanced prediction system.</p>
-        <hr class="my-4">
-        <p>Get real-time flood alerts and historical data analysis.</p>
-        <a class="btn btn-primary btn-lg" href="{% url 'simulate_sensor' %}" role="button">Simulate sensor</a>
-        <a class="btn btn-primary btn-lg" href="{% url 'send_flood_alert' %}" role="button">Send Flood Alert</a>
-        <a class="btn btn-primary btn-lg" href="{% url 'get_flood_prediction' %}" role="button">Predict Floods</a>
-        <a class="btn btn-primary btn-lg" href="{% url 'view_flood_alerts' %}" role="button">View Alerts</a>
-    </div>
+<!-- Add the Iconscout icon library -->
+<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
 
-    <!-- Cards Section -->
-    <div class="row mt-5">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">About Us</h5>
-                    <p class="card-text">Learn more about our team and mission.</p>
-                    <a href="#" class="btn btn-primary">Read More</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Contact</h5>
-                    <p class="card-text">Get in touch with us for support or inquiries.</p>
-                    <a href="#" class="btn btn-primary">Contact Us</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Services</h5>
-                    <p class="card-text">Explore the services we offer.</p>
-                    <a href="#" class="btn btn-primary">View Services</a>
-                </div>
-            </div>
-        </div>
-    </div>
+<style>
+    /* Custom CSS Styles */
+    body {
+        background-color: #f9f9f9;
+        font-family: Arial, sans-serif;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
 
-    <!-- How It Works Section -->
-    <div class="row mt-5">
-        <div class="col-md-12">
-            <h2>How It Works</h2>
-            <p>
-                Our system uses a combination of sensors and machine learning to predict floods.
-                The sensors are placed in strategic locations and send data to our servers.
-                The data is then analyzed and predictions are made. The predictions are then sent to the users.
-            </p>
-        </div>
-    </div>
+    .jumbotron {
+        background-color: #3f51b5;
+        color: #fff;
+        padding: 50px 20px;
+        text-align: center;
+        margin-bottom: 30px;
+        border-bottom: 5px solid #ff9800;
+        position: relative;
+    }
 
-    <!-- Sensor Reading Graph Section -->
-    <div class="row mt-5">
-        <div class="col-md-12">
-            <h2>Latest Insights</h2>
-            <p>
-                The graph below shows the latest sensor readings.
-                The graph is updated every 5 minutes.
-            </p>
-        </div>
-        <div class="col-md-6">
-            <h2>Sensor Reading Graph</h2>
-            <img src="{{ graph_img }}" alt="Sensor Reading Graph" class="img-fluid">
-        </div>
-        <div class="col-md-6">
-            <h1>Historical Data Plot</h1>
-            <img src="{{ plot_path }}" alt="Historical Data Plot" class="img-fluid">
-        </div>
+    .jumbotron h1 {
+        font-size: 48px;
+        margin-bottom: 20px;
+    }
+
+    .jumbotron p {
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .jumbotron a {
+        color: #fff;
+        background-color: #ff9800;
+        padding: 12px 24px;
+        border-radius: 30px;
+        text-decoration: none;
+        margin: 0 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    .jumbotron a:hover {
+        background-color: #ffa726;
+    }
+
+    .card-container {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 30%;
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-10px);
+    }
+
+    .card h5 {
+        color: #3f51b5;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .card p {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .card a {
+        color: #3f51b5;
+        text-decoration: none;
+    }
+
+    .card a:hover {
+        text-decoration: underline;
+    }
+
+    .how-it-works {
+        background-color: #f9f9f9;
+        padding: 50px 20px;
+        text-align: center;
+        margin-bottom: 30px;
+        border-radius: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .how-it-works h2 {
+        font-size: 36px;
+        margin-bottom: 20px;
+        color: #3f51b5;
+    }
+
+    .how-it-works p {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .insights-container {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 30px;
+    }
+
+    .insights {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        width: 30%;
+        transition: transform 0.3s ease;
+    }
+
+    .insights:hover {
+        transform: translateY(-10px);
+    }
+
+    .insights h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: #3f51b5;
+    }
+
+    .insights p {
+        font-size: 16px;
+        margin-bottom: 20px;
+    }
+
+    .insights img {
+        width: 100%;
+        border-radius: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .insights img:hover {
+        transform: scale(1.05);
+    }
+
+    .icon {
+        font-size: 48px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="jumbotron">
+    <h1>Welcome to Ndanu Flood Detection System</h1>
+    <p>Stay informed about potential flood events with our advanced prediction system.</p>
+    <hr>
+    <p>Get real-time flood alerts and historical data analysis.</p>
+    <a href="{% url 'simulate_sensor' %}"><i class="uil uil-wind icon"></i> Simulate sensor</a>
+    <a href="{% url 'send_flood_alert' %}"><i class="uil uil-bolt icon"></i> Send Flood Alert</a>
+    <a href="{% url 'get_flood_prediction' %}"><i class="uil uil-cloud-sun icon"></i> Predict Floods</a>
+    <a href="{% url 'view_flood_alerts' %}"><i class="uil uil-search icon"></i> View Alerts</a>
+</div>
+
+
+<div class="card-container">
+    <div class="card">
+        <i class="uil uil-users-alt icon"></i>
+        <h5>About Us</h5>
+        <p>Learn more about our team and mission.</p>
+        <a href="#">Read More</a>
+    </div>
+    <div class="card">
+        <i class="uil uil-phone-alt icon"></i>
+        <h5>Contact</h5>
+        <p>Get in touch with us for support or inquiries.</p>
+        <a href="#">Contact Us</a>
+    </div>
+    <div class="card">
+        <i class="uil uil-cog icon"></i>
+        <h5>Services</h5>
+        <p>Explore the services we offer.</p>
+        <a href="#">View Services</a>
+    </div>
+</div>
+
+<div class="how-it-works">
+    <h2>How It Works</h2>
+    <p>
+        Our system uses a combination of sensors and machine learning to predict floods.
+        The sensors are placed in strategic locations and send data to our servers.
+        The data is then analyzed and predictions are made. The predictions are then sent to the users.
+    </p>
+</div>
+
+<div class="insights-container">
+    <div class="insights">
+        <h2>Latest Insights</h2>
+        <p>
+            The graph below shows the latest sensor readings.
+            The graph is updated every 5 minutes.
+        </p>
+    </div>
+    <div class="insights">
+        <h2>Sensor Reading Graph</h2>
+        <img src="{{ graph_img }}" alt="Sensor Reading Graph">
+    </div>
+    <div class="insights">
+        <h2>Historical Data Plot</h2>
+        <img src="{{ plot_path }}" alt="Historical Data Plot">
     </div>
 </div>
 {% endblock %}
